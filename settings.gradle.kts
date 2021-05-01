@@ -1,3 +1,1 @@
-
-rootProject.name = "dashify"
-
+rootProject.name = "Dashify"

@@ -1,0 +1,10 @@
+name: $pluginName
+main: $pluginMain
+depend: [ Kotlin, ProtocolLib ]
+api-version: '1.16'
+author: $author
+version: $version
+commands:
+  Dashify:
+    usage: /<dashify> <password | port> <password here | port here>
+    description: Dashboard for Minecraft
