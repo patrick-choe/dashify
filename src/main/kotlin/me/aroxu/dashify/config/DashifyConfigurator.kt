@@ -16,23 +16,21 @@ data class ConfigDataStructure(
 )
 
 object DashifyConfigManager {
-    fun updatePassword(password: String) {
+    fun updatePassword(password: String): String {
         val json = Json { ignoreUnknownKeys = true }
-        val hashed = AuthenticationPassword(BCrypt.withDefaults().hashToString(12, password.toCharArray()))
-        val string = json.encodeToString(AuthenticationPassword.serializer(), hashed)
-        println(string)
+        val hashed = BCrypt.withDefaults().hashToString(12, password.toCharArray())
+        val string = json.encodeToString(AuthenticationPassword.serializer(), AuthenticationPassword(hashed))
         saveToFile(string)
+        return hashed
     }
 
     private fun saveToFile(jsonData: String) {
         val destinationFile = File(plugin.dataFolder, "config.json")
-        println(destinationFile.absoluteFile.parentFile)
         destinationFile.absoluteFile.parentFile.mkdirs()
         if (!destinationFile.exists()) {
             destinationFile.createNewFile()
         }
         destinationFile.writeText(jsonData)
-        println("Success")
     }
 
     fun loadFromFile(): String {

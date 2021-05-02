@@ -2,6 +2,7 @@ package me.aroxu.dashify
 
 import com.github.monun.kommand.kommand
 import me.aroxu.dashify.command.Dashify
+import me.aroxu.dashify.server.DashifyServer
 import org.bukkit.plugin.java.JavaPlugin
 
 /**
@@ -19,5 +20,14 @@ class DashifyPlugin : JavaPlugin() {
                 Dashify.register(this)
             }
         }
+        Thread {
+            DashifyServer.start()
+        }.start()
+        logger.info("Started Dashify Server.")
+    }
+    override fun onDisable(){
+        logger.info("Disabled Dashify v.$version.")
+        DashifyServer.stop()
+        logger.info("Stopped Dashify Server.")
     }
 }

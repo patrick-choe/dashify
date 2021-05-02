@@ -1,5 +1,4 @@
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
-import java.io.OutputStream
 
 plugins {
     kotlin("jvm") version "1.4.32"
@@ -8,9 +7,10 @@ plugins {
 }
 
 val relocate = (findProperty("relocate") as? String)?.toBoolean() ?: true
+val ktorVersion = "1.5.4"
 
 group = "me.aroxu"
-version = "1.0-DEV"
+version = ".${project.property("version").toString()}"
 
 repositories {
     maven("https://repo.maven.apache.org/maven2/")
@@ -26,6 +26,9 @@ dependencies {
 
     implementation("at.favre.lib:bcrypt:0.9.0")
     implementation("com.github.monun:kommand:0.9.0")
+    implementation("io.ktor:ktor-server-core:$ktorVersion")
+    implementation("io.ktor:ktor-server-netty:$ktorVersion")
+    implementation("io.ktor:ktor-jackson:1.5.4")
 }
 
 tasks {
@@ -47,8 +50,7 @@ tasks {
         archiveClassifier.set("") // Remove 'all'
 
         if (relocate) {
-            relocate("com.github.noonmaru.kommand", "${rootProject.group}.${rootProject.name}.kommand")
-            //relocate("com.github.noonmaru.tap", "${rootProject.group}.${rootProject.name}.tap") //not used
+            relocate("com.github.monun.kommand", "${rootProject.group}.${rootProject.name}.kommand")
         }
 
         doFirst {
