@@ -11,20 +11,12 @@ import java.io.File
 data class AuthenticationPassword(val password: String)
 
 @Serializable
-data class Port(val port: Int)
-
-@Serializable
-data class ConfigDataStatus(
-    val password: String = "",
-    val port: Int = 9080
+data class ConfigDataStructure(
+    val password: String = ""
 )
 
-enum class RequestType(val type: Int) {
-    REQ_ALLOW(1), REQ_DENY(2)
-}
-
-object MireWallDataManager {
-    fun setPassword(password: String) {
+object DashifyConfigManager {
+    fun updatePassword(password: String) {
         val json = Json { ignoreUnknownKeys = true }
         val hashed = AuthenticationPassword(BCrypt.withDefaults().hashToString(12, password.toCharArray()))
         val string = json.encodeToString(AuthenticationPassword.serializer(), hashed)
@@ -49,6 +41,6 @@ object MireWallDataManager {
             return "Cannot find that file"
         }
         val json = Json { ignoreUnknownKeys = true }
-        return json.encodeToString(json.decodeFromString(ConfigDataStatus.serializer(), destinationFile.readText()))
+        return json.encodeToString(json.decodeFromString(ConfigDataStructure.serializer(), destinationFile.readText()))
     }
 }
