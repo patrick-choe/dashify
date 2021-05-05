@@ -1,25 +1,25 @@
 package me.aroxu.dashify.config
 
 import at.favre.lib.crypto.bcrypt.BCrypt
-import me.aroxu.dashify.plugin
+import me.aroxu.dashify.DashifyPlugin.Companion.plugin
 import kotlinx.serialization.Serializable
 import kotlinx.serialization.encodeToString
 import kotlinx.serialization.json.Json
 import java.io.File
 
 @Serializable
-data class AuthenticationPassword(val password: String)
+data class AuthenticationKey(val authKey: String)
 
 @Serializable
 data class ConfigDataStructure(
-    val password: String = ""
+    val authKey: String = ""
 )
 
 object DashifyConfigManager {
     fun updatePassword(password: String): String {
         val json = Json { ignoreUnknownKeys = true }
         val hashed = BCrypt.withDefaults().hashToString(12, password.toCharArray())
-        val string = json.encodeToString(AuthenticationPassword.serializer(), AuthenticationPassword(hashed))
+        val string = json.encodeToString(AuthenticationKey.serializer(), AuthenticationKey(hashed))
         saveToFile(string)
         return hashed
     }

@@ -3,16 +3,20 @@ package me.aroxu.dashify
 import com.github.monun.kommand.kommand
 import me.aroxu.dashify.command.Dashify
 import me.aroxu.dashify.server.DashifyServer
+import org.bukkit.World
 import org.bukkit.plugin.java.JavaPlugin
 
 /**
  * @author aroxu
  */
 val version: String = "0.0.1"
-lateinit var plugin: DashifyPlugin
-    private set
+
 class DashifyPlugin : JavaPlugin() {
-    override fun onEnable(){
+    companion object {
+        lateinit var plugin: DashifyPlugin
+        private set
+    }
+    override fun onEnable() {
         plugin = this
         logger.info("Dashify v.$version has loaded.")
         kommand {
@@ -25,7 +29,7 @@ class DashifyPlugin : JavaPlugin() {
         }.start()
         logger.info("Started Dashify Server.")
     }
-    override fun onDisable(){
+    override fun onDisable() {
         logger.info("Disabled Dashify v.$version.")
         DashifyServer.stop()
         logger.info("Stopped Dashify Server.")
