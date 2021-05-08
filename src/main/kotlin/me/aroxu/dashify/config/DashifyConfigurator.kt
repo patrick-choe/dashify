@@ -3,6 +3,7 @@ package me.aroxu.dashify.config
 import at.favre.lib.crypto.bcrypt.BCrypt
 import me.aroxu.dashify.DashifyPlugin.Companion.plugin
 import kotlinx.serialization.Serializable
+import kotlinx.serialization.decodeFromString
 import kotlinx.serialization.encodeToString
 import kotlinx.serialization.json.Json
 import java.io.File
@@ -15,13 +16,19 @@ data class ConfigDataStructure(
     val authKey: String = ""
 )
 
-object DashifyConfigManager {
-    fun updatePassword(password: String): String {
+object DashifyConfigurator {
+    fun updateAuthKey(password: String): String {
         val json = Json { ignoreUnknownKeys = true }
         val hashed = BCrypt.withDefaults().hashToString(12, password.toCharArray())
         val string = json.encodeToString(AuthenticationKey.serializer(), AuthenticationKey(hashed))
         saveToFile(string)
         return hashed
+    }
+
+    fun getAuthKey(): String {
+        val jsonData = loadFromFile()
+        val json = Json { ignoreUnknownKeys = true }
+        return json.decodeFromString(AuthenticationKey.serializer(), jsonData).authKey
     }
 
     private fun saveToFile(jsonData: String) {
@@ -33,7 +40,7 @@ object DashifyConfigManager {
         destinationFile.writeText(jsonData)
     }
 
-    fun loadFromFile(): String {
+    private fun loadFromFile(): String {
         val destinationFile = File(plugin.dataFolder, "config.json")
         if (!destinationFile.exists()) {
             return "Cannot find that file"

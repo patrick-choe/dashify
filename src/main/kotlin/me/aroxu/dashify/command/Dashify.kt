@@ -2,14 +2,10 @@ package me.aroxu.dashify.command
 
 import com.github.monun.kommand.KommandBuilder
 import com.github.monun.kommand.argument.string
-import me.aroxu.dashify.config.DashifyConfigManager
+import me.aroxu.dashify.config.DashifyConfigurator
 import me.aroxu.dashify.version
-import net.md_5.bungee.api.chat.ClickEvent
 import net.md_5.bungee.api.chat.ComponentBuilder
-import net.md_5.bungee.api.chat.HoverEvent
 import org.bukkit.ChatColor
-import org.bukkit.command.CommandSender
-import org.bukkit.command.ConsoleCommandSender
 import org.bukkit.entity.Player
 
 object Dashify {
@@ -31,7 +27,7 @@ object Dashify {
                             }
                             it.sender.sendMessage("${ChatColor.GRAY}[INFO] Updating Access Key...")
 //                        it.sender.sendMessage(*ComponentBuilder("Click here").event(ClickEvent(ClickEvent.Action.COPY_TO_CLIPBOARD, DashifyConfigManager.updatePassword(it.parseArgument("password")))).bold(true).underlined(true).append(" to copy authentication key.").bold(false).underlined(false).create())
-                            it.sender.sendMessage(*ComponentBuilder("Your Access key is: ").append("${DashifyConfigManager.updatePassword(it.parseArgument("key"))}. ").bold(true).underlined(false).append("DO NOT SHARE THIS KEY.").bold(true).underlined(true).color(
+                            it.sender.sendMessage(*ComponentBuilder("Your Access key is: ").append("${DashifyConfigurator.updateAuthKey(it.parseArgument("key"))}. ").bold(true).underlined(false).append("DO NOT SHARE THIS KEY.").bold(true).underlined(true).color(
                                 net.md_5.bungee.api.ChatColor.DARK_RED).create())
                             it.sender.sendMessage("${ChatColor.AQUA}[SUCCESS] Access Key Updated!")
                         }
