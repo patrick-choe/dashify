@@ -17,6 +17,15 @@ import org.bukkit.World
 data class AuthKey(val key: String)
 
 fun Application.routeConfig() {
+    suspend fun checkAuth(call:ApplicationCall): Map<String, Any>? {
+        return if (call.request.headers.get("Dashify-Auth-Key") != DashifyConfigurator.getAuthKey()) {
+            val authMap = HashMap<String, Any>()
+            authMap["status"] = HttpStatusCode.Forbidden
+            authMap["message"] = "Zurun! AuthKey mismatched with server!"
+            call.respond(HttpStatusCode.Forbidden, authMap)
+            authMap
+        } else null
+    }
 
     install(ContentNegotiation) {
         jackson {
@@ -29,28 +38,24 @@ fun Application.routeConfig() {
             call.respondRedirect("/version")
         }
         get("/entities") {
-            if (call.request.headers.get("Dashify-Auth-Key") != DashifyConfigurator.getAuthKey()) {
-                val authMap = HashMap<String, Any>()
-                authMap["status"] = HttpStatusCode.Forbidden
-                authMap["message"] = "AuthKey mismatched with server!"
-                call.respond(HttpStatusCode.Forbidden, authMap)
+            val authMap = checkAuth(call)
+            if (authMap != null) {
                 return@get
+            } else {
+                val entitiesMap = HashMap<String, Any>()
+                entitiesMap["overworld"] = InformationLoader.getTotalEntitiesByWorldType(World.Environment.NORMAL)
+                entitiesMap["nether"] = InformationLoader.getTotalEntitiesByWorldType(World.Environment.NETHER)
+                entitiesMap["the_end"] = InformationLoader.getTotalEntitiesByWorldType(World.Environment.THE_END)
+                call.respond(entitiesMap)
             }
-            val entitiesMap = HashMap<String, Any>()
-            entitiesMap["overworld"] = InformationLoader.getTotalEntitiesByWorldType(World.Environment.NORMAL)
-            entitiesMap["nether"] = InformationLoader.getTotalEntitiesByWorldType(World.Environment.NETHER)
-            entitiesMap["the_end"] = InformationLoader.getTotalEntitiesByWorldType(World.Environment.THE_END)
-            call.respond(entitiesMap)
         }
         get("/tps") {
-            if (call.request.headers.get("Dashify-Auth-Key") != DashifyConfigurator.getAuthKey()) {
-                val authMap = HashMap<String, Any>()
-                authMap["status"] = HttpStatusCode.Forbidden
-                authMap["message"] = "AuthKey mismatched with server!"
-                call.respond(HttpStatusCode.Forbidden, authMap)
+            val authMap = checkAuth(call)
+            if (authMap != null) {
                 return@get
+            } else {
+                call.respond(InformationLoader.getTps())
             }
-            call.respond(InformationLoader.getTps())
         }
         get("/version") {
             val map = HashMap<String, Any>()
