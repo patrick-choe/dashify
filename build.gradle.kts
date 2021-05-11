@@ -62,7 +62,7 @@ tasks {
     }
     create<Copy>("paper") {
         from(shadowJar)
-        var dest = file("${project.projectDir.toString()}/server/plugins")
+        var dest = file("${project.projectDir}/server/plugins")
         // if plugin.jar exists in plugins change dest to plugins/update
         if (File(dest, shadowJar.get().archiveFileName.get()).exists()) dest = File(dest, "update")
         into(dest)

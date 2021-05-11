@@ -14,14 +14,12 @@ import me.aroxu.dashify.server.InformationLoader
 import me.aroxu.dashify.version
 import org.bukkit.World
 
-data class AuthKey(val key: String)
-
 fun Application.routeConfig() {
-    suspend fun checkAuth(call:ApplicationCall): Map<String, Any>? {
-        return if (call.request.headers.get("Dashify-Auth-Key") != DashifyConfigurator.getAuthKey()) {
+    suspend fun checkAuth(call: ApplicationCall): Map<String, Any>? {
+        return if (call.request.headers["Dashify-Auth-Key"] != DashifyConfigurator.getAuthKey()) {
             val authMap = HashMap<String, Any>()
             authMap["status"] = HttpStatusCode.Forbidden
-            authMap["message"] = "Zurun! AuthKey mismatched with server!"
+            authMap["message"] = "Oops! AuthKey mismatched with server!"
             call.respond(HttpStatusCode.Forbidden, authMap)
             authMap
         } else null
@@ -55,6 +53,19 @@ fun Application.routeConfig() {
                 return@get
             } else {
                 call.respond(InformationLoader.getTps())
+            }
+        }
+        get("/players") {
+            val authMap = checkAuth(call)
+            if (authMap != null) {
+                return@get
+            } else {
+                val playersMap = HashMap<String, Any>()
+                playersMap["playerCount"] = InformationLoader.getPlayerCount()
+                if (InformationLoader.getPlayerCount() >= 1) {
+                    playersMap["players"] = InformationLoader.getPlayersStatus()
+                }
+                call.respond(playersMap)
             }
         }
         get("/version") {

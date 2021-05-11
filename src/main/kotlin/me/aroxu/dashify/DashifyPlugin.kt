@@ -14,8 +14,9 @@ val version: String = "0.0.1"
 class DashifyPlugin : JavaPlugin() {
     companion object {
         lateinit var plugin: DashifyPlugin
-        private set
+            private set
     }
+
     override fun onEnable() {
         plugin = this
         logger.info("Dashify v.$version has loaded.")
@@ -29,6 +30,7 @@ class DashifyPlugin : JavaPlugin() {
         }.start()
         logger.info("Started Dashify Server.")
     }
+
     override fun onDisable() {
         logger.info("Disabled Dashify v.$version.")
         DashifyServer.stop()

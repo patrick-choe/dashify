@@ -26,12 +26,22 @@ object Dashify {
                                 return@executes
                             }
                             it.sender.sendMessage("${ChatColor.GRAY}[INFO] Updating Access Key...")
-//                        it.sender.sendMessage(*ComponentBuilder("Click here").event(ClickEvent(ClickEvent.Action.COPY_TO_CLIPBOARD, DashifyConfigManager.updatePassword(it.parseArgument("password")))).bold(true).underlined(true).append(" to copy authentication key.").bold(false).underlined(false).create())
-                            it.sender.sendMessage(*ComponentBuilder("Your Access key is: ").append("${DashifyConfigurator.updateAuthKey(it.parseArgument("key"))}. ").bold(true).underlined(false).append("DO NOT SHARE THIS KEY.").bold(true).underlined(true).color(
-                                net.md_5.bungee.api.ChatColor.DARK_RED).create())
+                            it.sender.sendMessage(
+                                *ComponentBuilder("Your Access key is: ").append(
+                                    "${
+                                        DashifyConfigurator.updateAuthKey(
+                                            it.parseArgument(
+                                                "key"
+                                            )
+                                        )
+                                    }. "
+                                ).bold(true).underlined(false).append("DO NOT SHARE THIS KEY.").bold(true)
+                                    .underlined(true).color(
+                                        net.md_5.bungee.api.ChatColor.DARK_RED
+                                    ).create()
+                            )
                             it.sender.sendMessage("${ChatColor.AQUA}[SUCCESS] Access Key Updated!")
-                        }
-                        else {
+                        } else {
                             it.sender.sendMessage("${ChatColor.RED}[ERR] Please run this command on console!")
                             return@executes
                         }

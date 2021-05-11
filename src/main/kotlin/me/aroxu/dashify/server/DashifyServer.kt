@@ -8,9 +8,11 @@ object DashifyServer {
     private val server = embeddedServer(Netty, port = 9080, host = "0.0.0.0") {
         routeConfig()
     }
+
     fun start() {
         server.start(wait = true)
     }
+
     fun stop() {
         server.stop(20, 20)
     }
