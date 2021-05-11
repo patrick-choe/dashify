@@ -35,16 +35,12 @@ fun Application.routeConfig() {
         get("/") {
             call.respondRedirect("/version")
         }
-        get("/entities") {
+        get("/worlds") {
             val authMap = checkAuth(call)
             if (authMap != null) {
                 return@get
             } else {
-                val entitiesMap = HashMap<String, Any>()
-                entitiesMap["overworld"] = InformationLoader.getTotalEntitiesByWorldType(World.Environment.NORMAL)
-                entitiesMap["nether"] = InformationLoader.getTotalEntitiesByWorldType(World.Environment.NETHER)
-                entitiesMap["the_end"] = InformationLoader.getTotalEntitiesByWorldType(World.Environment.THE_END)
-                call.respond(entitiesMap)
+                call.respond(InformationLoader.getWorldsInformation())
             }
         }
         get("/tps") {
