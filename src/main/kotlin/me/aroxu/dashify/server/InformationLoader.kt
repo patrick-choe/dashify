@@ -3,6 +3,7 @@ package me.aroxu.dashify.server
 import me.aroxu.dashify.DashifyPlugin.Companion.plugin
 import me.aroxu.dashify.server.utils.Convertor
 import me.aroxu.dashify.server.utils.SystemLoadChecker
+import org.bukkit.GameRule
 
 object InformationLoader {
     fun getWorldsInformation(): HashMap<String, Any> {
@@ -21,7 +22,11 @@ object InformationLoader {
             tempMap["entitiesCount"] = entities
             tempMap["difficulty"] = it.difficulty
             tempMap["fullTime"] = it.fullTime
-            tempMap["gameRules"] = it.gameRules.associate { gameRule -> (gameRule to it.getGameRuleValue(gameRule)) }
+            tempMap["gameRules"] = it.gameRules.mapNotNull { ruleName ->
+                GameRule.getByName(ruleName)?.let { rule ->
+                    Pair(ruleName, it.getGameRuleValue(rule))
+                }
+            }.toMap()
             tempMap["isAutoSave"] = it.isAutoSave
             tempMap["seed"] = it.seed
             tempMap["isHardcore"] = it.isHardcore
