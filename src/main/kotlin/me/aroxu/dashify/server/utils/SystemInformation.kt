@@ -10,7 +10,7 @@ object SystemInformation {
             ManagementFactory.getOperatingSystemMXBean() as OperatingSystemMXBean
         val archInfo = operatingSystemMXBean.arch
         val availableProcessors = operatingSystemMXBean.availableProcessors
-        val cpuLoad = round((operatingSystemMXBean.processCpuLoad * 1000) * 100) / 100
+        val cpuLoad = round((operatingSystemMXBean.processCpuLoad * 100) * 100) / 100
         return arrayOf(archInfo, availableProcessors, cpuLoad)
     }
 
