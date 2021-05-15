@@ -5,15 +5,31 @@ import io.ktor.server.netty.*
 import me.aroxu.dashify.server.route.routeConfig
 
 object DashifyServer {
+    private var isServerRunning: Boolean = false
     private val server = embeddedServer(Netty, port = 9080, host = "0.0.0.0") {
         routeConfig()
     }
 
     fun start() {
-        server.start(wait = true)
+        if (isServerRunning) return
+        Thread {
+            server.start(wait = true)
+        }.start()
+        isServerRunning = true
     }
 
     fun stop() {
+        if (!isServerRunning) return
         server.stop(20, 20)
+        isServerRunning = false
+    }
+
+    fun restart() {
+        stop()
+        start()
+    }
+
+    fun checkIsServerRunning(): Boolean {
+        return isServerRunning
     }
 }

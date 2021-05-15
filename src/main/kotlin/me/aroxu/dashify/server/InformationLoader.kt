@@ -2,11 +2,11 @@ package me.aroxu.dashify.server
 
 import me.aroxu.dashify.DashifyPlugin.Companion.plugin
 import me.aroxu.dashify.server.utils.Convertor
-import org.bukkit.World
+import me.aroxu.dashify.server.utils.SystemLoadChecker
 
 object InformationLoader {
     fun getWorldsInformation(): HashMap<String, Any> {
-        val entitiesMap = HashMap<String, Any>()
+        val worldsMap = HashMap<String, Any>()
         plugin.server.worlds.forEach {
             val tempMap = HashMap<String, Any>()
             var entities = 0
@@ -21,33 +21,24 @@ object InformationLoader {
             tempMap["entitiesCount"] = entities
             tempMap["difficulty"] = it.difficulty
             tempMap["fullTime"] = it.fullTime
-            tempMap["gameRules"] = it.gameRules.map { gameRule ->
-                run {
-                    mapOf(gameRule to it.getGameRuleValue(gameRule))
-                }
-            }
+            tempMap["gameRules"] = it.gameRules.associate { gameRule -> (gameRule to it.getGameRuleValue(gameRule)) }
             tempMap["isAutoSave"] = it.isAutoSave
             tempMap["seed"] = it.seed
             tempMap["isHardcore"] = it.isHardcore
             tempMap["pvp"] = it.pvp
-            tempMap["raids"] = it.raids
-            tempMap["players"] = it.players.map { player ->
-                run {
-                    player.name
-                }
-            }
+            tempMap["players"] = it.players.map { player -> player.name }
             tempMap["keepSpawnInMemory"] = it.keepSpawnInMemory
             tempMap["viewDistance"] = it.viewDistance
-            entitiesMap[it.environment.toString()] = tempMap
+            worldsMap[it.environment.toString()] = tempMap
         }
-        return entitiesMap
+        return worldsMap
     }
 
     fun getTps(): DoubleArray {
         return plugin.server.tps
     }
 
-    fun getPlayerCount(): Int {
+    fun getCurrentPlayersSize(): Int {
         return plugin.server.onlinePlayers.size
     }
 
@@ -91,5 +82,14 @@ object InformationLoader {
             playersMap[it.name] = tempMap
         }
         return playersMap
+    }
+
+    fun getMemoryStatus(): HashMap<String, Any> {
+        val ramInformation = SystemLoadChecker.getRAMInformation()
+        val memoryMap = HashMap<String, Any>()
+        memoryMap["totalMemorySize"] = ramInformation[0]
+        memoryMap["usedMemorySize"] = ramInformation[1]
+        memoryMap["maxHeapSize"] = ramInformation[2]
+        return memoryMap
     }
 }

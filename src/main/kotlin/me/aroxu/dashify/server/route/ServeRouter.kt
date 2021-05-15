@@ -6,17 +6,14 @@ import io.ktor.application.*
 import io.ktor.features.*
 import io.ktor.http.*
 import io.ktor.jackson.*
-import io.ktor.request.*
 import io.ktor.response.*
-import io.ktor.util.pipeline.*
-import me.aroxu.dashify.config.DashifyConfigurator
+import me.aroxu.dashify.authKey
 import me.aroxu.dashify.server.InformationLoader
 import me.aroxu.dashify.version
-import org.bukkit.World
 
 fun Application.routeConfig() {
     suspend fun checkAuth(call: ApplicationCall): Map<String, Any>? {
-        return if (call.request.headers["Dashify-Auth-Key"] != DashifyConfigurator.getAuthKey()) {
+        return if (call.request.headers["Dashify-Auth-Key"] != authKey) {
             val authMap = HashMap<String, Any>()
             authMap["status"] = HttpStatusCode.Forbidden
             authMap["message"] = "Oops! AuthKey mismatched with server!"
@@ -57,11 +54,19 @@ fun Application.routeConfig() {
                 return@get
             } else {
                 val playersMap = HashMap<String, Any>()
-                playersMap["playerCount"] = InformationLoader.getPlayerCount()
-                if (InformationLoader.getPlayerCount() >= 1) {
+                playersMap["currentPlayerSize"] = InformationLoader.getCurrentPlayersSize()
+                if (InformationLoader.getCurrentPlayersSize() >= 1) {
                     playersMap["players"] = InformationLoader.getPlayersStatus()
                 }
                 call.respond(playersMap)
+            }
+        }
+        get("/memory") {
+            val authMap = checkAuth(call)
+            if (authMap != null) {
+                return@get
+            } else {
+                call.respond(InformationLoader.getMemoryStatus())
             }
         }
         get("/version") {

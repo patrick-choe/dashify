@@ -15,13 +15,21 @@ object Convertor {
         return String.format(
             "%dd%dh%dm%ds",
             TimeUnit.MILLISECONDS.toDays(duration),
-            TimeUnit.MILLISECONDS.toHours(duration),
-            TimeUnit.MILLISECONDS.toMinutes(duration),
+            TimeUnit.MILLISECONDS.toHours(duration) - TimeUnit.DAYS.toHours(
+                TimeUnit.MILLISECONDS.toDays(
+                    duration
+                )
+            ),
+            TimeUnit.MILLISECONDS.toMinutes(duration) - TimeUnit.HOURS.toMinutes(
+                TimeUnit.MILLISECONDS.toHours(
+                    duration
+                )
+            ),
             TimeUnit.MILLISECONDS.toSeconds(duration) - TimeUnit.MINUTES.toSeconds(
                 TimeUnit.MILLISECONDS.toMinutes(
                     duration
                 )
             )
-        );
+        )
     }
 }

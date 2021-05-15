@@ -2,16 +2,19 @@ package me.aroxu.dashify
 
 import com.github.monun.kommand.kommand
 import me.aroxu.dashify.command.Dashify
+import me.aroxu.dashify.config.DashifyConfigurator
 import me.aroxu.dashify.server.DashifyServer
-import org.bukkit.World
 import org.bukkit.plugin.java.JavaPlugin
 
 /**
  * @author aroxu
  */
 val version: String = "0.0.1"
+var authKey: String = ""
 
 class DashifyPlugin : JavaPlugin() {
+    private val defaultAuthKey: String = "\$2a\$12\$qg94dD9lyzgvhtXVyMkXIu8bX/GwU..3SlEvyzoAc2ZOrNbtPlWku"
+
     companion object {
         lateinit var plugin: DashifyPlugin
             private set
@@ -25,9 +28,13 @@ class DashifyPlugin : JavaPlugin() {
                 Dashify.register(this)
             }
         }
-        Thread {
-            DashifyServer.start()
-        }.start()
+        authKey = DashifyConfigurator.getAuthKey()
+        if (authKey == defaultAuthKey) {
+            logger.warning("Auth Key is the same as the default key!")
+            logger.warning("Dashify server won't start until the key is changed.")
+            return
+        }
+        DashifyServer.start()
         logger.info("Started Dashify Server.")
     }
 

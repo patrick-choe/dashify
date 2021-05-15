@@ -1,5 +1,6 @@
 name: $pluginName
 main: $pluginMain
+loadbefore: [ AutoUpdate, Kotlin ]
 depend: [ Kotlin, ProtocolLib ]
 api-version: '1.16'
 author: $author

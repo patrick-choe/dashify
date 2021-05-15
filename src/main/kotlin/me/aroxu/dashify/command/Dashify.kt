@@ -28,13 +28,13 @@ object Dashify {
                             it.sender.sendMessage("${ChatColor.GRAY}[INFO] Updating Access Key...")
                             it.sender.sendMessage(
                                 *ComponentBuilder("Your Access key is: ").append(
-                                    "${
+                                    "\"${
                                         DashifyConfigurator.updateAuthKey(
                                             it.parseArgument(
                                                 "key"
                                             )
                                         )
-                                    }. "
+                                    }\". "
                                 ).bold(true).underlined(false).append("DO NOT SHARE THIS KEY.").bold(true)
                                     .underlined(true).color(
                                         net.md_5.bungee.api.ChatColor.DARK_RED
