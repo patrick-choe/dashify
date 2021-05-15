@@ -9,7 +9,7 @@ import org.bukkit.plugin.java.JavaPlugin
 /**
  * @author aroxu
  */
-val version: String = "0.0.1"
+const val version: String = "1.0.0"
 var authKey: String = ""
 
 class DashifyPlugin : JavaPlugin() {
