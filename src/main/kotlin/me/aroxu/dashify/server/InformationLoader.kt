@@ -79,11 +79,6 @@ object InformationLoader {
             tempMap["scoreboardTag"] = it.scoreboardTags
             tempMap["totalExperience"] = it.totalExperience
             tempMap["walkSpeed"] = it.walkSpeed
-            tempMap["raw"] = it.javaClass.declaredFields
-                .map { mtd ->
-                    mtd.isAccessible = true
-                    return@map mtd.name to mtd.get(it)
-                }
             playersMap[it.name] = tempMap
         }
         return playersMap
