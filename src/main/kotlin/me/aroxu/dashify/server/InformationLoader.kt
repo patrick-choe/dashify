@@ -70,7 +70,7 @@ object InformationLoader {
             tempMap["lastJoinTime"] = Convertor.convertLongToTime(it.lastSeen)
             tempMap["affectsSpawning"] = it.affectsSpawning
             tempMap["clientViewDistance"] = it.clientViewDistance
-            tempMap["cooldownPeriod"] = it.cooldownPeriod
+            tempMap["coolDownPeriod"] = it.cooldownPeriod
             tempMap["exp"] = it.exp
             tempMap["healthScale"] = it.healthScale
             tempMap["health"] = it.health
