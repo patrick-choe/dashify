@@ -2,7 +2,7 @@ package me.aroxu.dashify.server
 
 import me.aroxu.dashify.DashifyPlugin.Companion.plugin
 import me.aroxu.dashify.server.utils.Convertor
-import me.aroxu.dashify.server.utils.SystemLoadChecker
+import me.aroxu.dashify.server.utils.SystemInformation
 import org.bukkit.GameRule
 
 object InformationLoader {
@@ -11,6 +11,7 @@ object InformationLoader {
         plugin.server.worlds.forEach {
             val tempMap = HashMap<String, Any>()
             var entities = 0
+
             entities += it.entityCount
             tempMap["allowAnimals"] = it.allowAnimals
             tempMap["allowMonsters"] = it.allowMonsters
@@ -56,6 +57,7 @@ object InformationLoader {
             } else {
                 it.clientBrandName!!
             }
+
             tempMap["address"] = it.address
             tempMap["receivedClientName"] = clientName
             tempMap["latency"] = it.spigot().ping
@@ -85,11 +87,40 @@ object InformationLoader {
     }
 
     fun getMemoryStatus(): HashMap<String, Any> {
-        val ramInformation = SystemLoadChecker.getRAMInformation()
+        val memoryInformation = SystemInformation.getRAMInformation()
         val memoryMap = HashMap<String, Any>()
-        memoryMap["totalMemorySize"] = ramInformation[0]
-        memoryMap["usedMemorySize"] = ramInformation[1]
-        memoryMap["maxHeapSize"] = ramInformation[2]
+
+        memoryMap["maxJvmMemory"] = memoryInformation[0] / 1048576L
+        memoryMap["freeJvmMemory"] = memoryInformation[1] / 1048576L
+        memoryMap["usingJvmMemory"] = memoryInformation[2] / 1048576L
+        memoryMap["maxJvmHeapSize"] = memoryInformation[3] / 1048576L
+        memoryMap["maxPhysicalRamSize"] = memoryInformation[4] / 1048576L
+        memoryMap["freePhysicalRamSize"] = memoryInformation[5] / 1048576L
+        memoryMap["usedPhysicalRamSize"] = memoryInformation[6] / 1048576L
+        memoryMap["maxVirtualRamSize"] = memoryInformation[7] / 1048576L
+        memoryMap["freeVirtualRamSize"] = memoryInformation[8] / 1048576L
+        memoryMap["usedVirtualRamSize"] = memoryInformation[9] / 1048576L
+        memoryMap["committedVirtualRamSize"] = memoryInformation[10] / 1048576L
         return memoryMap
+    }
+
+    fun getProcessorStatus(): HashMap<String, Any> {
+        val processorInformation = SystemInformation.getCPUInformation()
+        val processorMap = HashMap<String, Any>()
+
+        processorMap["archInfo"] = processorInformation[0]
+        processorMap["availableProcessors"] = processorInformation[1]
+        processorMap["avgCpuLoad"] = processorInformation[2]
+        processorMap["cpuLoad"] = processorInformation[3]
+        return processorMap
+    }
+
+    fun getOsInformation(): HashMap<String, Any> {
+        val osInformation = SystemInformation.getOSInformation()
+        val osMap = HashMap<String, Any>()
+
+        osMap["osName"] = osInformation[0]
+        osMap["osVersion"] = osInformation[1]
+        return osMap
     }
 }

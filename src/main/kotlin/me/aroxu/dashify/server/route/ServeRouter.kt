@@ -69,6 +69,22 @@ fun Application.routeConfig() {
                 call.respond(InformationLoader.getMemoryStatus())
             }
         }
+        get("/processor") {
+            val authMap = checkAuth(call)
+            if (authMap != null) {
+                return@get
+            } else {
+                call.respond(InformationLoader.getProcessorStatus())
+            }
+        }
+        get("/os") {
+            val authMap = checkAuth(call)
+            if (authMap != null) {
+                return@get
+            } else {
+                call.respond(InformationLoader.getOsInformation())
+            }
+        }
         get("/version") {
             val map = HashMap<String, Any>()
             map["version"] = version
