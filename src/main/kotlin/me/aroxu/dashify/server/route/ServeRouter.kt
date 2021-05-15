@@ -55,6 +55,7 @@ fun Application.routeConfig() {
             } else {
                 val playersMap = HashMap<String, Any>()
                 playersMap["currentPlayerSize"] = InformationLoader.getCurrentPlayersSize()
+                playersMap["maxPlayersSize"] = InformationLoader.getMaxPlayersSize()
                 if (InformationLoader.getCurrentPlayersSize() >= 1) {
                     playersMap["players"] = InformationLoader.getPlayersStatus()
                 }

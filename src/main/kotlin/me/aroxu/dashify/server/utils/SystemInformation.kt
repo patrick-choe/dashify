@@ -10,9 +10,8 @@ object SystemInformation {
             ManagementFactory.getOperatingSystemMXBean() as OperatingSystemMXBean
         val archInfo = operatingSystemMXBean.arch
         val availableProcessors = operatingSystemMXBean.availableProcessors
-        val avgCpuLoad = round((operatingSystemMXBean.systemLoadAverage * 10) * 100) / 100
         val cpuLoad = round((operatingSystemMXBean.processCpuLoad * 1000) * 100) / 100
-        return arrayOf(archInfo, availableProcessors, avgCpuLoad, cpuLoad)
+        return arrayOf(archInfo, availableProcessors, cpuLoad)
     }
 
     fun getRAMInformation(): Array<Long> {

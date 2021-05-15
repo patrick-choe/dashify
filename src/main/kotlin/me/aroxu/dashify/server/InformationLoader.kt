@@ -48,6 +48,10 @@ object InformationLoader {
         return plugin.server.onlinePlayers.size
     }
 
+    fun getMaxPlayersSize(): Int {
+        return plugin.server.maxPlayers
+    }
+
     fun getPlayersStatus(): HashMap<String, Any> {
         val playersMap = HashMap<String, Any>()
         plugin.server.onlinePlayers.forEach {
@@ -110,8 +114,7 @@ object InformationLoader {
 
         processorMap["archInfo"] = processorInformation[0]
         processorMap["availableProcessors"] = processorInformation[1]
-        processorMap["avgCpuLoad"] = processorInformation[2]
-        processorMap["cpuLoad"] = processorInformation[3]
+        processorMap["cpuLoad"] = processorInformation[2]
         return processorMap
     }
 
