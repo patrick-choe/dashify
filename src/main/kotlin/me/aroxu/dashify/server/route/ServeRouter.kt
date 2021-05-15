@@ -7,9 +7,9 @@ import io.ktor.features.*
 import io.ktor.http.*
 import io.ktor.jackson.*
 import io.ktor.response.*
+import me.aroxu.dashify.DashifyPlugin.Companion.version
 import me.aroxu.dashify.authKey
 import me.aroxu.dashify.server.InformationLoader
-import me.aroxu.dashify.version
 
 fun Application.routeConfig() {
     suspend fun checkAuth(call: ApplicationCall): Map<String, Any>? {
@@ -87,9 +87,7 @@ fun Application.routeConfig() {
             }
         }
         get("/version") {
-            val map = HashMap<String, Any>()
-            map["version"] = version
-            call.respond(map)
+            call.respond(mapOf("version" to version))
         }
     }
 }

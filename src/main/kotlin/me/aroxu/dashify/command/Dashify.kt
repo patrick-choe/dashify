@@ -2,8 +2,8 @@ package me.aroxu.dashify.command
 
 import com.github.monun.kommand.KommandBuilder
 import com.github.monun.kommand.argument.string
+import me.aroxu.dashify.DashifyPlugin.Companion.version
 import me.aroxu.dashify.config.DashifyConfigurator
-import me.aroxu.dashify.version
 import net.md_5.bungee.api.chat.ComponentBuilder
 import org.bukkit.ChatColor
 import org.bukkit.entity.Player

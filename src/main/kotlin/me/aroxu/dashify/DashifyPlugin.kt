@@ -9,7 +9,6 @@ import org.bukkit.plugin.java.JavaPlugin
 /**
  * @author aroxu
  */
-const val version: String = "1.0.0"
 var authKey: String = ""
 
 class DashifyPlugin : JavaPlugin() {
@@ -18,10 +17,13 @@ class DashifyPlugin : JavaPlugin() {
     companion object {
         lateinit var plugin: DashifyPlugin
             private set
+        lateinit var version: String
+            private set
     }
 
     override fun onEnable() {
         plugin = this
+        version = description.version
         logger.info("Dashify v.$version has loaded.")
         kommand {
             register("dashify") {
