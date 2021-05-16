@@ -87,7 +87,7 @@ fun Application.routeConfig() {
             }
         }
         get("/version") {
-            call.respond(mapOf("version" to version))
+            call.respond(mapOf("version" to "v$version"))
         }
     }
 }

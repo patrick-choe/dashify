@@ -50,7 +50,7 @@ object Dashify {
             }
             then("version") {
                 executes {
-                    it.sender.sendMessage("Dashify v.${version} by aroxu")
+                    it.sender.sendMessage("Dashify v${version} by aroxu")
                 }
             }
         }
