@@ -21,8 +21,12 @@ object Dashify {
                                 return@executes
                             }
                             val numberIncluded = it.parseArgument<String>("key").filter { it.isDigit() }
+                            val stringIncluded = it.parseArgument<String>("key").filter { it.isLetter() }
                             if (numberIncluded.isEmpty()) {
                                 it.sender.sendMessage("${ChatColor.RED}[ERR] Passwords must contain at least one number!")
+                                return@executes
+                            } else if (stringIncluded.isEmpty()) {
+                                it.sender.sendMessage("${ChatColor.RED}[ERR] Passwords must contain at least one string!")
                                 return@executes
                             }
                             it.sender.sendMessage("${ChatColor.GRAY}[INFO] Updating Access Key...")
