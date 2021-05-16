@@ -24,7 +24,7 @@ class DashifyPlugin : JavaPlugin() {
     override fun onEnable() {
         plugin = this
         version = description.version
-        logger.info("Dashify v.$version has loaded.")
+        logger.info("Dashify v$version has loaded.")
         kommand {
             register("dashify") {
                 Dashify.register(this)
@@ -41,7 +41,7 @@ class DashifyPlugin : JavaPlugin() {
     }
 
     override fun onDisable() {
-        logger.info("Disabled Dashify v.$version.")
+        logger.info("Disabled Dashify v$version.")
         DashifyServer.stop()
         logger.info("Stopped Dashify Server.")
     }

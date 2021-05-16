@@ -31,6 +31,14 @@ dependencies {
     implementation("io.ktor:ktor-jackson:1.5.4")
 }
 
+configurations.runtimeClasspath.get().exclude("org.jetbrains.kotlin", "kotlin-stdlib")
+configurations.runtimeClasspath.get().exclude("org.jetbrains.kotlin", "kotlin-reflect")
+configurations.runtimeClasspath.get().exclude("org.jetbrains.kotlinx", "kotlinx-serialization-json+")
+configurations.runtimeClasspath.get().exclude("org.jetbrains.kotlinx", "kotlinx-coroutines-core")
+configurations.runtimeClasspath.get().exclude("org.jetbrains.exposed", "exposed-core")
+configurations.runtimeClasspath.get().exclude("org.jetbrains.exposed", "exposed-dao")
+configurations.runtimeClasspath.get().exclude("org.jetbrains.exposed", "exposed-jdbc")
+
 tasks {
     withType<KotlinCompile> {
         kotlinOptions.jvmTarget = "11"
