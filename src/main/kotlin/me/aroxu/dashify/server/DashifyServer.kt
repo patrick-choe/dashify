@@ -6,7 +6,7 @@ import me.aroxu.dashify.server.route.routeConfig
 
 object DashifyServer {
     private var isServerRunning: Boolean = false
-    private val server = embeddedServer(Netty, port = 9090, host = "0.0.0.0") {
+    private val server = embeddedServer(Netty, port = 1972, host = "0.0.0.0") {
         routeConfig()
     }
 
