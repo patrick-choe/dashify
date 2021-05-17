@@ -85,6 +85,7 @@ object InformationLoader {
             tempMap["scoreboardTag"] = it.scoreboardTags
             tempMap["totalExperience"] = it.totalExperience
             tempMap["walkSpeed"] = it.walkSpeed
+            tempMap["potionEffects"] = it.activePotionEffects.map { effect -> run { effect } }
             playersMap[it.name] = tempMap
         }
         return playersMap
