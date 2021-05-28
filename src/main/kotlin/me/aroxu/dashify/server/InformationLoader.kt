@@ -81,8 +81,6 @@ object InformationLoader {
             tempMap["healthScale"] = it.healthScale
             tempMap["health"] = it.health
             tempMap["level"] = it.level
-            tempMap["scoreboard"] = it.scoreboard
-            tempMap["scoreboardTag"] = it.scoreboardTags
             tempMap["totalExperience"] = it.totalExperience
             tempMap["walkSpeed"] = it.walkSpeed
             tempMap["potionEffects"] = it.activePotionEffects.map { effect -> run { effect } }
