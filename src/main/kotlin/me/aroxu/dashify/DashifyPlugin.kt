@@ -1,6 +1,6 @@
 package me.aroxu.dashify
 
-import com.github.monun.kommand.kommand
+import io.github.monun.kommand.kommand
 import me.aroxu.dashify.command.Dashify
 import me.aroxu.dashify.config.DashifyConfigurator
 import me.aroxu.dashify.server.DashifyServer

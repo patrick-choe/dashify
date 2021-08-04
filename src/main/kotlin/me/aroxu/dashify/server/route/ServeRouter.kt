@@ -1,12 +1,17 @@
 package me.aroxu.dashify.server.route
 
-import com.fasterxml.jackson.databind.SerializationFeature
-import io.ktor.routing.*
-import io.ktor.application.*
-import io.ktor.features.*
-import io.ktor.http.*
-import io.ktor.jackson.*
-import io.ktor.response.*
+import io.ktor.application.Application
+import io.ktor.application.ApplicationCall
+import io.ktor.application.call
+import io.ktor.application.install
+import io.ktor.features.ContentNegotiation
+import io.ktor.http.HttpStatusCode
+import io.ktor.response.respond
+import io.ktor.response.respondRedirect
+import io.ktor.routing.get
+import io.ktor.routing.routing
+import io.ktor.serialization.json
+import kotlinx.serialization.json.Json
 import me.aroxu.dashify.DashifyPlugin.Companion.version
 import me.aroxu.dashify.authKey
 import me.aroxu.dashify.server.InformationLoader
@@ -23,15 +28,16 @@ fun Application.routeConfig() {
     }
 
     install(ContentNegotiation) {
-        jackson {
-            enable(SerializationFeature.INDENT_OUTPUT)
-        }
+        json(Json {
+            prettyPrint = true
+        })
     }
 
     routing {
         get("/") {
             call.respondRedirect("/version")
         }
+
         get("/worlds") {
             val authMap = checkAuth(call)
             if (authMap != null) {
@@ -40,6 +46,7 @@ fun Application.routeConfig() {
                 call.respond(InformationLoader.getWorldsInformation())
             }
         }
+
         get("/tps") {
             val authMap = checkAuth(call)
             if (authMap != null) {
@@ -48,6 +55,7 @@ fun Application.routeConfig() {
                 call.respond(InformationLoader.getTps())
             }
         }
+
         get("/players") {
             val authMap = checkAuth(call)
             if (authMap != null) {
@@ -62,6 +70,7 @@ fun Application.routeConfig() {
                 call.respond(playersMap)
             }
         }
+
         get("/memory") {
             val authMap = checkAuth(call)
             if (authMap != null) {
@@ -70,6 +79,7 @@ fun Application.routeConfig() {
                 call.respond(InformationLoader.getMemoryStatus())
             }
         }
+
         get("/processor") {
             val authMap = checkAuth(call)
             if (authMap != null) {
@@ -78,6 +88,7 @@ fun Application.routeConfig() {
                 call.respond(InformationLoader.getProcessorStatus())
             }
         }
+
         get("/os") {
             val authMap = checkAuth(call)
             if (authMap != null) {
@@ -86,6 +97,7 @@ fun Application.routeConfig() {
                 call.respond(InformationLoader.getOsInformation())
             }
         }
+
         get("/version") {
             call.respond(mapOf("version" to "v$version"))
         }

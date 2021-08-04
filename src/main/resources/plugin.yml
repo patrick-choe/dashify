@@ -1,10 +1,18 @@
-name: $pluginName
-main: $pluginMain
-depend: [ Kotlin ]
-api-version: '1.16'
-author: $author
+name: Dashify
+main: me.aroxu.dashify.DashifyPlugin
 version: $version
-commands:
-  dashify:
-    usage: /<dashify> <password | port> <password here | port here>
-    description: Dashboard for Minecraft
+api-version: '1.17'
+
+author: aroxu
+authors:
+  - PatrickKR
+
+libraries:
+  - org.jetbrains.kotlin:kotlin-stdlib-jdk8:1.5.21
+  - org.jetbrains.kotlinx:kotlinx-coroutines-core:1.5.1
+  - org.jetbrains.kotlinx:kotlinx-serialization-json:1.2.2
+  - at.favre.lib:bcrypt:0.9.0
+  - com.github.monun:kommand:2.4.1
+  - io.ktor:ktor-server-core:$ktorVersion
+  - io.ktor:ktor-server-netty:$ktorVersion
+  - io.ktor:ktor-serialization:$ktorVersion
